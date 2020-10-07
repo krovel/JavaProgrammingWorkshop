@@ -33,13 +33,14 @@ public class TicTacToe {
 				System.out.println("---------");
 		}
 	}
-	public static void moveLocation(char[] board, char user) {
+	public static int moveLocation(char[] board) {
 		boolean isEmpty = false;
+		int position=0;
 		do {
 		System.out.println("Select location from 1 to 9 on the baord:");
-		int position = sc.nextInt();
-		if(board[position]==' ') {
-			board[position] = user;
+		position = sc.nextInt();
+		Integer [] validCells = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+		if(board[position]==' '&& Arrays.asList(validCells).contains(position)) {
 			isEmpty = true;
 		}
 		else 
@@ -47,10 +48,15 @@ public class TicTacToe {
 		}while(isEmpty==false);
 		if(isEmpty) {
 			System.out.println("Position is empty");
-			showBoard(board);
 		}
 		else
 			System.out.println("Not empty");
+		return position;
+	}
+	public static void moveAtLocation(char[] board, char user) {
+		int position = moveLocation(board);
+		board[position] = user;
+		showBoard(board);
 	}
 	public static void main(String[] args) {
 		System.out.println("Welcome");
@@ -68,6 +74,6 @@ public class TicTacToe {
 		}
 		System.out.println("User-"+user+" Computer-"+comp);
 		showBoard(board);
-		moveLocation(board,user);
+		moveAtLocation(board,user);
 	}
 }

@@ -3,7 +3,10 @@ package com.example;
 import java.util.*;
 
 public class TicTacToe {
+	public final static int TAIL = 0;
+	public final static int HEAD = 1;
 	public static Scanner sc = new Scanner(System.in);
+	
 	public char[] addBoard() {
 		char [] board = new char[10];
 		for(int i=1; i<board.length; i++)
@@ -58,12 +61,27 @@ public class TicTacToe {
 		board[position] = user;
 		showBoard(board);
 	}
+	public static int toss() {
+		int gameToss = (int)(Math.floor(Math.random()*10)%2);
+		return gameToss;		
+	}
+	public static void firstPlayer(int gameToss, char[] board, char user, char comp) {
+		if(gameToss == HEAD) {
+			System.out.println("User will play first");
+			moveAtLocation(board, user);
+		}
+		if(gameToss == TAIL) {
+			System.out.println("Computer will play first");
+			moveAtLocation(board, comp);		
+		}
+	}
 	public static void main(String[] args) {
 		System.out.println("Welcome");
 		char comp = ' ';
 		TicTacToe t= new TicTacToe();
 		char [] board=t.addBoard();
 		char user = t.takeInput();
+		int gameToss = toss();
 		if(user == 'X') {
 			comp = 'O';}
 		else if(user =='O') {
@@ -73,7 +91,6 @@ public class TicTacToe {
 			System.out.println("Wrong choice");
 		}
 		System.out.println("User-"+user+" Computer-"+comp);
-		showBoard(board);
-		moveAtLocation(board,user);
+		firstPlayer(gameToss, board, user, comp);
 	}
 }

@@ -42,10 +42,10 @@ public class TicTacToe {
 	public static int moveLocation(char[] board) {
 		boolean isEmpty = false;
 		int position=0;
+		Integer [] validCells = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 		do {
 		System.out.println("Select location from 1 to 9 on the baord:");
 		position = sc.nextInt();
-		Integer [] validCells = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 		if(board[position]==' '&& Arrays.asList(validCells).contains(position)) {
 			isEmpty = true;
 		}
@@ -57,19 +57,14 @@ public class TicTacToe {
 	public static boolean isFree(char[] board, int position) {
 		return board[position]==' ';
 	}
-	public static void moveAtLocation(char[] board, char Choice) {
-		boolean empty = false;
+	public static void moveAtLocation(char Choice) {
 		if(Choice==userChoice) {
 		int position = moveLocation(board);
 		board[position] = Choice;
 		}
 		else {
-		do {
-		int position = (int)(Math.floor((Math.random()*10)%9)+1);
-		empty = isFree(board, position);
-		if(empty)
-			board[position] = Choice;	
-		}while(empty==false);
+		int position = computerPlaysLikeMe();
+		board[position] = Choice;	
 		}
 		showBoard(board);
 	}
@@ -87,12 +82,12 @@ public class TicTacToe {
 			gameConditions(gameToss);;		
 		}
 	}
-private static void gameConditions(int gameToss) {
+	private static void gameConditions(int gameToss) {
 		if(gameToss == HEAD) {
-			moveAtLocation(board, userChoice);
+			moveAtLocation(userChoice);
 		}
 		else if(gameToss == TAIL) {
-			moveAtLocation(board, Comp);
+			moveAtLocation(Comp);
 		}
 		if((board[1]==board[2] && board[2]==board[3] && board[1]!=' ')
 				|| (board[4]==board[5] && board[5]==board[6] && board[6]!=' ')
@@ -126,6 +121,72 @@ private static void gameConditions(int gameToss) {
 			}
 		}
 		}
+	}
+	public static int computerPlaysLikeMe() {
+		int i = 0, k = 0, count = 0, position = 0;
+		while(k<=6 && position==0) {
+			count = 0;
+			for(i=k+1; i<=k+3; i++) {
+				if(board[i]==Comp)
+					count++;
+				}
+			if(count==2) {
+				i = i-3;
+				while(count>=0) {
+					if(board[i]!=Comp && isFree(board, i))
+						position = i;
+					else
+						i++;
+					count--;
+				}
+			}
+			k = k + 3;
+		}
+		k = 0;
+		while(k<=2 && position==0) {
+			count = 0;
+			for(i=k+1; i<=k+7; i=i+3) {
+				if(board[i]==Comp)
+					count++;
+			}
+			if(count==2) {
+				i = i-9;
+				while(count>=0) {
+					if(board[i]!=Comp && isFree(board, i))
+						position = i;
+					else
+						i=i+3;
+					count--;
+				}
+			}
+			k++;
+		}
+		if(position==0 && (board[1]==board[5] || board[5]==board[9]|| board[1]==board[9]) 
+				&& (board[1]==Comp || board[5]==Comp || board[9]==Comp)) {
+			i = 1;
+			while(i<=9) {
+				if(board[i]!=Comp && isFree(board, i))
+				position = i;
+				else
+					i=i+4;
+				}
+		}
+		if(position==0 && (board[3]==board[5] || board[5]==board[7] || board[3]==board[7]) 
+				&& (board[3]==Comp || board[5]==Comp || board[7]==Comp)) {
+			i = 3;
+			while(i<=7) {
+				if(board[i]!=Comp && isFree(board, i))
+					position = i;
+				else
+					i=i+2;
+				}
+			}
+		while(position==0) {
+			i = (int)(Math.floor((Math.random()*10)%9)+1);
+			if(isFree(board, i))
+				position = i;
+		}
+		return position;
 	}
 	public static void main(String[] args) {
 		System.out.println("Welcome");

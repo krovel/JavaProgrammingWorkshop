@@ -255,7 +255,7 @@ public class TicTacToe {
 			return computerTakesFourCorners();
 
 	}
-	private static int computerTakesFourCorners() {
+	public static int computerTakesFourCorners() {
 		int position = 0;
 		if(board[1]==Comp && isFree(board, 9))
 			position = 9;
@@ -273,6 +273,22 @@ public class TicTacToe {
 					position = i;
 				}
 			}	
+		}
+		if(position!=0)
+			return position;
+		else
+			return computerPlaystoTakesCenterOrSides();
+	}
+	public static int computerPlaystoTakesCenterOrSides() {
+		int position = 0;
+		if(isFree(board, 5))
+			position = 5;
+		else {
+			while(position==0) {
+			int i = (int)(Math.floor((Math.random()*10)%9)+1);
+				if(isFree(board, i))
+				position = i;
+			}
 		}
 		return position;
 	}

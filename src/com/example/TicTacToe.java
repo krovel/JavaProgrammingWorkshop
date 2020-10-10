@@ -8,6 +8,7 @@ public class TicTacToe {
 	public static char Comp;
 	public static char[] board;
 	public static char userChoice;
+	public static String game;
 	public static Scanner sc = new Scanner(System.in);
 	
 	public static char[] addBoard() {
@@ -100,26 +101,24 @@ public class TicTacToe {
 			if(gameToss==HEAD)
 				System.out.println("Congrats ! User Wins Tic Tac Toe Game");
 			if(gameToss==TAIL)
-				System.out.println(" Game Over ! Computer Wins Tic Tac Toe Game");
-			System.exit(0);
+				System.out.println("Game Over ! Computer Wins Tic Tac Toe Game");
 		}
 		else {
 			if(board[1]!=' ' && board[2]!=' ' && board[3]!=' ' && board[4]!=' '
 				&&board[5]!=' ' && board[6]!=' ' && board[7]!=' ' && board[8]!=' '
 				&& board[9]!=' ') {
 			System.out.println("It's a TIE ! Well Played");
-			System.exit(0);
-		}
-		else {
-			if(gameToss == HEAD) {
-				gameToss--;
-				gameConditions(gameToss);
 			}
-			else if(gameToss == TAIL) {
-				gameToss++;
-				gameConditions(gameToss);
+			else {
+				if(gameToss == HEAD) {
+					gameToss--;
+					gameConditions(gameToss);
+				}
+				else if(gameToss == TAIL) {
+					gameToss++;
+					gameConditions(gameToss);
+				}
 			}
-		}
 		}
 	}
 	public static int computerPlaysLikeMe() {
@@ -293,19 +292,25 @@ public class TicTacToe {
 		return position;
 	}
 	public static void main(String[] args) {
-		System.out.println("Welcome");
-		board=addBoard();
-		userChoice=takeInput();
-		int gameToss = toss();
-		if(userChoice == 'X') {
-			Comp = 'O';}
-		else if(userChoice =='O') {
-			Comp='X';}
-		else
-		{
-			System.out.println("Wrong choice");
+		do {
+			System.out.println("Welcome");
+			board=addBoard();
+			userChoice=takeInput();
+			int gameToss = toss();
+			if(userChoice == 'X') {
+				Comp = 'O';}
+			else if(userChoice =='O') {
+				Comp='X';}
+			else
+			{
+					System.out.println("Wrong choice");
+					break;
 		}
-		System.out.println("User-"+userChoice+" Computer-"+Comp);
-		firstPlayer(gameToss);
+			System.out.println("User-"+userChoice+" Computer-"+Comp);
+			firstPlayer(gameToss);
+			System.out.println("Dare to play again ? (Yes/No)");
+			game = sc.next().toLowerCase();
+		}while(game.equals("yes"));
+		System.out.println("Thank You for Playing! Have a Nice Day. :)");
 	}
 }
